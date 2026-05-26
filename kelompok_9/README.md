@@ -1,7 +1,7 @@
-# 💄 Blush & Bloom 
+# 💄 Blush & Bloom
 
 Aplikasi ini dikembangkan untuk memenuhi tugas UAS Mata Kuliah Pemrograman Berbasis Web.  
-Blush & Bloom merupakan aplikasi manajemen produk kecantikan berbasis React + Vite dengan tampilan modern aesthetic glassmorphism bernuansa pink dan ungu gradient.
+**Blush & Bloom** merupakan aplikasi manajemen produk kecantikan berbasis **React + Vite** dengan tampilan modern aesthetic glassmorphism bernuansa pink dan ungu gradient.
 
 ---
 
@@ -50,18 +50,18 @@ Blush & Bloom merupakan aplikasi manajemen produk kecantikan berbasis React + Vi
 
 # 🔍 Additional Features
 
-- Search Product
-- Filter Category
-- Filter Brand
-- LocalStorage Database
-- Auto Save Data
-- Animated Hover Effects
+- 🔎 Search Product
+- 🗂️ Filter Category
+- 💖 Filter Brand
+- 💾 LocalStorage Database
+- ⚡ Auto Save Data
+- ✨ Animated Hover Effects
 
 ---
 
 # 🧠 Struktur Data
 
-## Product
+## 📦 Product
 
 ```js
 {
@@ -73,22 +73,31 @@ Blush & Bloom merupakan aplikasi manajemen produk kecantikan berbasis React + Vi
   brand: string
 }
 
-## category
+## 📁 Category
 
+```js
 {
   id: number,
   name: string
 }
+```
 
-## brand
+---
 
+## 💖 Brand
+
+```js
 {
   id: number,
   name: string
 }
+```
 
-## struktur folder
+---
 
+# 📂 Struktur Folder
+
+```txt
 src/
 │
 ├── assets/
@@ -132,21 +141,29 @@ src/
 ├── App.jsx
 ├── main.jsx
 │
-index.html
-package.json
-vite.config.js
-README.md
+├── index.html
+├── package.json
+├── vite.config.js
+└── README.md
+```
 
-🌐 Deploy
+---
+
+# 🌐 Deploy
+
+🔗 Vercel  
 https://blushandbloom-pi.vercel.app/
 
-🛠️ Built With
-React JS
-Vite
-CSS3
-LocalStorage API
-📜 Lisensi
+---
 
-Hak Cipta © 2026
-Kelompok 9 — UAS Pemrograman Berbasis
+# 🛠️ Built With
+
+- React JS
+- Vite
+- CSS3
+- LocalStorage API
+
+---
+
+
 
