@@ -6,9 +6,9 @@
 
 **Anggota**:
 
-- 1. Devaldy Dzikri S | 240160221050
-- 2. Alya Ayu Meysha | 240160221003
-- 3. Winda Nurhidayah | 240160221047
+- Devaldy Dzikri S | 240160221050
+- Alya Ayu Meysha | 240160221003
+- Winda Nurhidayah | 240160221047
 
 ---
 
