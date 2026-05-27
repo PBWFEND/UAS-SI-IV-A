@@ -4,7 +4,11 @@
 
 **Kelompok 5 SI-IV-A**
 
-**Anggota**: - 1. Devaldy Dzikri S | 240160221050, - 2. Alya Ayu Meysha | 240160221050, - 3. Winda Nurhidayah | 240160221047.
+**Anggota**:
+
+- 1. Devaldy Dzikri S | 240160221050
+- 2. Alya Ayu Meysha | 240160221003
+- 3. Winda Nurhidayah | 240160221047
 
 ---
 
@@ -53,8 +57,7 @@ Aplikasi ini menggunakan struktur data objek tunggal film dengan skema sebagai b
   "title": "String", // Judul film
   "genre": "String/Array", // Genre film (contoh: "Action, Sci-Fi" atau ["Action", "Sci-Fi"])
   "country": "String/Array", // Negara asal (contoh: "USA", "Indonesia")
-  "status": "String", // Status tontonan ("watched" atau "unwatched")
-  "rating": "Number" // Penilaian film dari pengguna (opsional)
+  "status": "String" // Status tontonan ("sudah ditonton" atau "belum ditonton")
 }
 ```
 

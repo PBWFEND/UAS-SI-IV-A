@@ -871,7 +871,7 @@ export default function App() {
             </h2>
             <div className="flex items-center gap-2 mt-1">
               <p className="font-semibold text-gray-400 text-sm">
-                Catat film yang ingin kamu tonton
+                Catat film yang ingin kamu tonton.
               </p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
