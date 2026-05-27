@@ -31,7 +31,7 @@ Dalam proses pembuatannya, antarmuka (_user interface_) MovieFlux dibangun sepen
 
 Fitur inti untuk mengelola database film pengguna:
 
-- **Spotlight**: Menampilkan film pilihan utama atau yang sedang hangat diperhatikan.
+- **Spotlight**: Menampilkan Panel utama bagian atas untuk menambah data film baru, melakukan pencarian (search), serta penyaringan (filter) film secara instan.
 - **Semua Film**: Menampilkan seluruh koleksi katalog film yang tersimpan.
 - **Belum Ditonton**: Menyaring daftar film yang masuk antrean rencana tontonan (_watchlist_).
 - **Sudah Ditonton**: Menyaring daftar film yang telah selesai ditonton sebagai riwayat (_history_).
