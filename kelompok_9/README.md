@@ -193,7 +193,7 @@ src/
 # 🌐 Deploy
 
 🔗 Vercel  
-https://caffeine-co.vercel.app/
+https://caffeineandco.vercel.app/
 
 ---
 
