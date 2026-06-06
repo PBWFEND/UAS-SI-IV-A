@@ -13,13 +13,33 @@ Aplikasi ini dikembangkan untuk memenuhi tugas UAS Mata Kuliah Pemrograman Berba
 
 ---
 
-# ✨ Fitur Aplikasi (CRUD)
+# ✨ Fitur Aplikasi (Full CRUD di Setiap Halaman Navigasi)
 
-## 📋 Order Management
-- ➕ Tambah Pesanan Baru (Create): Membuat transaksi pesanan secara manual oleh barista dengan detail pelanggan, cara penyajian, nomor meja, metode pembayaran, serta pilihan menu.
-- 👀 Lihat Daftar Pesanan (Read): Menampilkan antrean pesanan aktif dan riwayat transaksi selesai secara visual.
-- ✏️ Edit Pesanan (Update): Mengubah rincian nama pelanggan, cara penyajian, meja, metode pembayaran, item minuman, dan memperbarui status tahapan pembuatan kopi.
-- 🗑️ Hapus Pesanan (Delete): Membatalkan atau menghapus transaksi pesanan dari daftar antrean secara permanen.
+Aplikasi ini telah diperbarui untuk mendukung fungsionalitas CRUD (Create, Read, Update, Delete) yang lengkap di setiap tab navigasi, tersinkron secara persisten melalui **LocalStorage**:
+
+## 📋 1. Kelola & Status Pesanan (CRUD Antrean & Transaksi)
+- **Create**: Barista dapat menambahkan pesanan baru secara manual di tab "Kelola Pesanan" (Order Manager) atau pelanggan dapat melakukan checkout keranjang belanja.
+- **Read**: Pelanggan memantau status pembuatan pesanan secara visual (Queued ➔ Grinding ➔ Extracting ➔ Steaming ➔ Ready) secara real-time.
+- **Update**: Mengubah detail pesanan, mengedit item belanja di modal barista, atau mempercepat progres penyeduhan secara manual.
+- **Delete**: Membatalkan pesanan yang sedang aktif di antrean atau menghapus riwayat transaksi pesanan selesai.
+
+## ☕ 2. Menu Artisan (CRUD Menu Produk)
+- **Create**: Ditambahkan tombol **Kelola Menu** untuk admin. Ketika aktif, admin dapat mengklik tombol **Tambah Menu** dan mengisi form modal nama, harga, deskripsi, kalori, badge, dan gambar produk.
+- **Read**: Pelanggan mencari produk lewat kolom pencarian atau menyaring berdasarkan kategori menu.
+- **Update**: Mengedit item produk secara langsung lewat tombol edit pada kartu menu ketika dalam mode admin.
+- **Delete**: Menghapus item produk menu dari database lokal.
+
+## 🧪 3. Lab Kopi DIY / Drink Builder (CRUD Resep Kustom)
+- **Create**: Menyimpan kombinasi racikan kopi kustom (dasar, susu, sirup, topping, dan ratio) dengan nama unik lewat tombol **Simpan Resep**.
+- **Read**: Menampilkan seluruh resep tersimpan di panel bawah, lengkap dengan tombol **Gunakan** untuk langsung memuat racikan tersebut ke visualizer gelas.
+- **Update**: Mengubah nama resep tersimpan via prompt popup.
+- **Delete**: Menghapus resep tersimpan dari daftar favorit.
+
+## 🎟️ 4. Loyalty Program & Anggota (CRUD Member Club)
+- **Create**: Mendaftarkan anggota baru program loyalitas (stamps digital) dengan nama lengkap, jumlah stamps awal, dan total pesanan.
+- **Read**: Memilih salah satu anggota sebagai profil aktif agar stamp hasil pembelian checkout otomatis terakumulasi ke profil tersebut.
+- **Update**: Mengubah profil nama anggota atau mengedit jumlah stamp/pesanan secara manual.
+- **Delete**: Menghapus profil keanggotaan dari daftar.
 
 ---
 
@@ -30,7 +50,7 @@ Aplikasi ini dikembangkan untuk memenuhi tugas UAS Mata Kuliah Pemrograman Berba
 - 🌓 Light / Dark Mode Theme Toggle
 - ⏳ Loading Screen / Splash Screen Animation dengan logo Coffee berdenyut
 - 📱 Responsive Design (Desktop & Mobile)
-- ☕ Visual Cup & Steaming Milk Animation untuk melacak kemajuan pembuatan pesanan
+- ☕ Visual Cup & Steaming Milk Animation untuk melacak kemajuan pembuatan pesanan dengan countdown timer
 - 🎨 DIY Interactive Drink Builder Cup Layering Visualizer
 
 ---
@@ -43,24 +63,24 @@ Aplikasi ini dikembangkan untuk memenuhi tugas UAS Mata Kuliah Pemrograman Berba
 - 🎟️ Loyalty Program (Kartu stamp digital berbasis LocalStorage; dapat 1 stamp per minuman, dapat 1 voucher gratis setelah mengumpulkan 9 stamp)
 - 💾 LocalStorage Database (Menyimpan riwayat keranjang, status loyalitas, total pesanan, profil user, dan daftar pesanan secara otomatis)
 - ⚡ Auto Save Data
-- ✨ Animated Hover Effects & Smooth Transitions
+- 💡 Animated Hover Effects & Smooth Transitions
 
 ---
 
-# 🧠 Struktur Data
+# 📂 Skema Struktur Data
 
-## 📦 Order
+## 📦 Order (Transaksi Pesanan)
 
 ```js
 {
   id: string,          // e.g., 'ord_1717500000000'
   customerName: string,
-  orderType: string,   // 'Makan di Tempat' | 'Bawa Pulang'
-  tableNumber: string, // Nomor meja (jika makan di tempat)
-  paymentMethod: string,
+  orderType: string,   // 'dine-in' | 'takeaway'
+  tableNumber: string, // Nomor meja (jika dine-in)
+  paymentMethod: string, // 'cash' | 'e-wallet' | 'card'
   items: Array<OrderItem>,
   subtotal: number,
-  tax: number,         // Pajak PB1 11%
+  tax: number,         // Pajak PB1 10%
   totalPrice: number,
   status: string,      // 'Queued' | 'Grinding' | 'Extracting' | 'Steaming' | 'Ready' | 'Completed'
   timestamp: string,   // ISO String
@@ -69,7 +89,7 @@ Aplikasi ini dikembangkan untuk memenuhi tugas UAS Mata Kuliah Pemrograman Berba
 }
 ```
 
-## 📦 OrderItem
+## 📦 OrderItem (Detail Minuman Pesanan)
 
 ```js
 {
@@ -91,7 +111,7 @@ Aplikasi ini dikembangkan untuk memenuhi tugas UAS Mata Kuliah Pemrograman Berba
 }
 ```
 
-## ☕ MenuItem (Menu Details)
+## 📦 MenuItem (Katalog Menu Toko)
 
 ```js
 {
@@ -103,6 +123,34 @@ Aplikasi ini dikembangkan untuk memenuhi tugas UAS Mata Kuliah Pemrograman Berba
   calories: number,
   badge?: string,
   image: string
+}
+```
+
+## 📦 Member (Profil Anggota Loyalitas)
+
+```js
+{
+  id: string,          // e.g., 'm_1717500000000'
+  name: string,
+  loyaltyPoints: number, // Stamps
+  totalOrders: number
+}
+```
+
+## 📦 CustomRecipe (Resep Kustom DIY)
+
+```js
+{
+  id: string,          // e.g., 'recipe_1717500000000'
+  name: string,
+  base: string,        // 'espresso' | 'coldbrew' | 'matcha'
+  milk: string,
+  syrup: string,
+  topping: string,
+  baseRatio: number,
+  milkRatio: number,
+  syrupRatio: number,
+  price: number
 }
 ```
 

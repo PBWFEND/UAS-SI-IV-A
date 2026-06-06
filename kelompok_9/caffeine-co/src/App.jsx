@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
-import MenuGrid from './components/MenuGrid';
+import MenuGrid, { MENU_ITEMS } from './components/MenuGrid';
 import CustomizationModal from './components/CustomizationModal';
 import DrinkBuilder from './components/DrinkBuilder';
 import LoyaltyTracker from './components/LoyaltyTracker';
@@ -27,6 +27,18 @@ export default function App() {
   const [orders, setOrders] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // Dynamic Menu Items State
+  const [menuItems, setMenuItems] = useState([]);
+
+  // Multi-Member Loyalty States
+  const defaultMembers = [
+    { id: 'm_della', name: 'Della Kartika', loyaltyPoints: 0, totalOrders: 0 },
+    { id: 'm_ahmad', name: 'Ahmad Fauzi', loyaltyPoints: 12, totalOrders: 4 },
+    { id: 'm_siti', name: 'Siti Rahma', loyaltyPoints: 8, totalOrders: 2 }
+  ];
+  const [members, setMembers] = useState([]);
+  const [activeMemberId, setActiveMemberId] = useState('');
 
   // Splash Screen timer sequence
   useEffect(() => {
@@ -59,17 +71,44 @@ export default function App() {
       const storedCart = localStorage.getItem('caffeine_co_cart');
       if (storedCart) setCart(JSON.parse(storedCart));
 
-      const storedLoyalty = localStorage.getItem('caffeine_co_loyalty');
-      if (storedLoyalty) setLoyaltyPoints(parseInt(storedLoyalty, 10) || 0);
-
-      const storedTotalOrders = localStorage.getItem('caffeine_co_total_orders');
-      if (storedTotalOrders) setTotalOrders(parseInt(storedTotalOrders, 10) || 0);
-
-      const storedUser = localStorage.getItem('caffeine_co_username');
-      if (storedUser) setUserName(storedUser);
-
       const storedOrders = localStorage.getItem('caffeine_co_orders');
       if (storedOrders) setOrders(JSON.parse(storedOrders));
+
+      // Load Menu
+      const storedMenu = localStorage.getItem('caffeine_co_menu');
+      if (storedMenu) {
+        setMenuItems(JSON.parse(storedMenu));
+      } else {
+        setMenuItems(MENU_ITEMS);
+        localStorage.setItem('caffeine_co_menu', JSON.stringify(MENU_ITEMS));
+      }
+
+      // Load Members
+      const storedMembers = localStorage.getItem('caffeine_co_members');
+      const storedActiveId = localStorage.getItem('caffeine_co_active_member_id');
+      let currentMembers = defaultMembers;
+      let currentActiveId = 'm_della';
+
+      if (storedMembers) {
+        currentMembers = JSON.parse(storedMembers);
+      } else {
+        localStorage.setItem('caffeine_co_members', JSON.stringify(defaultMembers));
+      }
+      setMembers(currentMembers);
+
+      if (storedActiveId) {
+        currentActiveId = storedActiveId;
+      } else {
+        localStorage.setItem('caffeine_co_active_member_id', 'm_della');
+      }
+      setActiveMemberId(currentActiveId);
+
+      const activeMember = currentMembers.find(m => m.id === currentActiveId);
+      if (activeMember) {
+        setUserName(activeMember.name);
+        setLoyaltyPoints(activeMember.loyaltyPoints);
+        setTotalOrders(activeMember.totalOrders);
+      }
     } catch (e) {
       console.error('Gagal mengambil data dari penyimpanan lokal:', e);
     }
@@ -79,6 +118,33 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('caffeine_co_cart', JSON.stringify(cart));
   }, [cart]);
+
+  // Sync menuItems to local storage
+  useEffect(() => {
+    if (menuItems.length > 0) {
+      localStorage.setItem('caffeine_co_menu', JSON.stringify(menuItems));
+    }
+  }, [menuItems]);
+
+  // Sync members to local storage
+  useEffect(() => {
+    if (members.length > 0) {
+      localStorage.setItem('caffeine_co_members', JSON.stringify(members));
+    }
+  }, [members]);
+
+  // Sync active member selections
+  useEffect(() => {
+    if (activeMemberId && members.length > 0) {
+      localStorage.setItem('caffeine_co_active_member_id', activeMemberId);
+      const activeMember = members.find(m => m.id === activeMemberId);
+      if (activeMember) {
+        setUserName(activeMember.name);
+        setLoyaltyPoints(activeMember.loyaltyPoints);
+        setTotalOrders(activeMember.totalOrders);
+      }
+    }
+  }, [activeMemberId, members]);
 
   // Sync loyalty points to local storage
   useEffect(() => {
@@ -177,10 +243,34 @@ export default function App() {
 
     loyaltyDelta += beverageCount;
 
-    // Update States
-    setLoyaltyPoints((prev) => Math.max(0, prev + loyaltyDelta));
-    setTotalOrders((prev) => prev + 1);
-    setUserName(checkoutDetails.customerName);
+    // Update Member Loyalty points & Total orders in members list
+    setMembers((prevMembers) =>
+      prevMembers.map((m) => {
+        if (m.id === activeMemberId) {
+          const nextLoyalty = Math.max(0, m.loyaltyPoints + loyaltyDelta);
+          const nextOrders = m.totalOrders + 1;
+          
+          setLoyaltyPoints(nextLoyalty);
+          setTotalOrders(nextOrders);
+          
+          return {
+            ...m,
+            loyaltyPoints: nextLoyalty,
+            totalOrders: nextOrders,
+            name: checkoutDetails.customerName
+          };
+        }
+        return m;
+      })
+    );
+
+    // Fallback if no active member
+    if (!activeMemberId) {
+      setLoyaltyPoints((prev) => Math.max(0, prev + loyaltyDelta));
+      setTotalOrders((prev) => prev + 1);
+      setUserName(checkoutDetails.customerName);
+    }
+
     setOrders((prevOrders) => [newOrder, ...prevOrders]);
     setCart([]); // Clear cart
 
@@ -212,6 +302,21 @@ export default function App() {
 
   const handleDeleteOrder = (orderId) => {
     setOrders((prevOrders) => prevOrders.filter((order) => order.id !== orderId));
+  };
+
+  // Menu CRUD Handlers
+  const handleCreateMenuItem = (newItem) => {
+    setMenuItems((prev) => [...prev, newItem]);
+  };
+
+  const handleUpdateMenuItem = (updatedItem) => {
+    setMenuItems((prev) =>
+      prev.map((item) => (item.id === updatedItem.id ? updatedItem : item))
+    );
+  };
+
+  const handleDeleteMenuItem = (itemId) => {
+    setMenuItems((prev) => prev.filter((item) => item.id !== itemId));
   };
 
   const totalCartCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
@@ -292,7 +397,13 @@ export default function App() {
 
           {/* Dynamic Navigation Pages */}
           {activeTab === 'menu' && (
-            <MenuGrid onSelectItem={setSelectedItem} />
+            <MenuGrid
+              menuItems={menuItems}
+              onCreateItem={handleCreateMenuItem}
+              onUpdateItem={handleUpdateMenuItem}
+              onDeleteItem={handleDeleteMenuItem}
+              onSelectItem={setSelectedItem}
+            />
           )}
 
           {activeTab === 'builder' && (
@@ -300,23 +411,29 @@ export default function App() {
           )}
 
           {activeTab === 'rewards' && (
-            <LoyaltyTracker 
-              loyaltyPoints={loyaltyPoints} 
-              totalOrders={totalOrders} 
-              userName={userName} 
+            <LoyaltyTracker
+              members={members}
+              activeMemberId={activeMemberId}
+              setActiveMemberId={setActiveMemberId}
+              setMembers={setMembers}
+              loyaltyPoints={loyaltyPoints}
+              totalOrders={totalOrders}
+              userName={userName}
             />
           )}
 
           {activeTab === 'orders' && (
-            <OrderHistory 
-              orders={orders} 
-              onCompleteOrder={handleCompleteOrder} 
+            <OrderHistory
+              orders={orders}
+              onCompleteOrder={handleCompleteOrder}
+              setOrders={setOrders}
             />
           )}
 
           {activeTab === 'manager' && (
             <OrderManager
               orders={orders}
+              menuItems={menuItems}
               onCreateOrder={handleCreateOrder}
               onUpdateOrder={handleUpdateOrder}
               onDeleteOrder={handleDeleteOrder}

@@ -11,7 +11,7 @@ const STATUS_STEPS = {
   'Completed': { label: 'Selesai', index: 4, percent: 100 }
 };
 
-export default function OrderManager({ orders, onCreateOrder, onUpdateOrder, onDeleteOrder }) {
+export default function OrderManager({ orders, menuItems = [], onCreateOrder, onUpdateOrder, onDeleteOrder }) {
   const [filterStatus, setFilterStatus] = useState('all'); // 'all', 'active', 'completed'
   
   // Modals state
@@ -413,7 +413,7 @@ export default function OrderManager({ orders, onCreateOrder, onUpdateOrder, onD
                   
                   {/* Quick menu product picker grid */}
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.5rem', maxHeight: '150px', overflowY: 'auto', border: '1px solid rgba(200, 162, 124, 0.08)', borderRadius: '0.5rem', padding: '0.5rem', background: 'rgba(0,0,0,0.2)' }}>
-                    {MENU_ITEMS.map((item) => (
+                    {(menuItems.length > 0 ? menuItems : MENU_ITEMS).map((item) => (
                       <div 
                         key={item.id}
                         onClick={() => handleAddItemToForm(item)}
@@ -566,7 +566,7 @@ export default function OrderManager({ orders, onCreateOrder, onUpdateOrder, onD
                   
                   {/* Quick menu product picker grid */}
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.5rem', maxHeight: '120px', overflowY: 'auto', border: '1px solid rgba(200, 162, 124, 0.08)', borderRadius: '0.5rem', padding: '0.5rem', background: 'rgba(0,0,0,0.2)' }}>
-                    {MENU_ITEMS.map((item) => (
+                    {(menuItems.length > 0 ? menuItems : MENU_ITEMS).map((item) => (
                       <div 
                         key={item.id}
                         onClick={() => handleAddItemToForm(item)}

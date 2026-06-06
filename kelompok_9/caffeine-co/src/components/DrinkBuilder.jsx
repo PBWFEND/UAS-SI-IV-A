@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, RefreshCw } from 'lucide-react';
+import { Sparkles, RefreshCw, Heart, Trash2, Edit2 } from 'lucide-react';
 import { formatRupiah } from './MenuGrid';
 
 const BASES = [
@@ -46,6 +46,21 @@ export default function DrinkBuilder({ onAddToCart }) {
   // Animation Triggers
   const [isPouring, setIsPouring] = useState(false);
 
+  // Saved Custom Recipes State
+  const [customRecipes, setCustomRecipes] = useState(() => {
+    try {
+      const stored = localStorage.getItem('caffeine_co_custom_recipes');
+      return stored ? JSON.parse(stored) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
+  // Sync saved recipes to local storage
+  useEffect(() => {
+    localStorage.setItem('caffeine_co_custom_recipes', JSON.stringify(customRecipes));
+  }, [customRecipes]);
+
   // Sync ratios if black coffee or no sweetener selected
   useEffect(() => {
     let base = 50;
@@ -89,6 +104,64 @@ export default function DrinkBuilder({ onAddToCart }) {
     setSelectedSyrup('none');
     setSelectedTopping('none');
     setCustomName("Seduhan Spesial Della");
+  };
+
+  // Save recipe (CREATE / UPDATE)
+  const handleSaveRecipe = () => {
+    const recipeName = customName.trim() || 'Seduhan Kustom DIY';
+    const newRecipe = {
+      id: `recipe_${Date.now()}`,
+      name: recipeName,
+      base: selectedBase,
+      milk: selectedMilk,
+      syrup: selectedSyrup,
+      topping: selectedTopping,
+      baseRatio,
+      milkRatio,
+      syrupRatio,
+      price: calculateTotal()
+    };
+
+    setCustomRecipes((prev) => {
+      const existingIdx = prev.findIndex((r) => r.name.toLowerCase() === recipeName.toLowerCase());
+      if (existingIdx > -1) {
+        const updated = [...prev];
+        updated[existingIdx] = newRecipe;
+        alert(`Resep "${recipeName}" berhasil diperbarui!`);
+        return updated;
+      }
+      alert(`Resep "${recipeName}" berhasil disimpan!`);
+      return [...prev, newRecipe];
+    });
+  };
+
+  // Load recipe
+  const handleLoadRecipe = (recipe) => {
+    setSelectedBase(recipe.base);
+    setSelectedMilk(recipe.milk);
+    setSelectedSyrup(recipe.syrup);
+    setSelectedTopping(recipe.topping);
+    setBaseRatio(recipe.baseRatio);
+    setMilkRatio(recipe.milkRatio);
+    setSyrupRatio(recipe.syrupRatio);
+    setCustomName(recipe.name);
+  };
+
+  // Rename recipe (UPDATE name)
+  const handleRenameRecipe = (id, currentName) => {
+    const newName = window.prompt('Ubah nama resep:', currentName);
+    if (newName && newName.trim() && newName.trim() !== currentName) {
+      setCustomRecipes((prev) =>
+        prev.map((r) => (r.id === id ? { ...r, name: newName.trim() } : r))
+      );
+    }
+  };
+
+  // Delete recipe
+  const handleDeleteRecipe = (id, name) => {
+    if (window.confirm(`Hapus resep "${name}" dari daftar?`)) {
+      setCustomRecipes((prev) => prev.filter((r) => r.id !== id));
+    }
   };
 
   // Add custom brew to cart
@@ -340,23 +413,94 @@ export default function DrinkBuilder({ onAddToCart }) {
           </div>
 
           {/* Actions button group */}
-          <div className="builder-actions">
+          <div className="builder-actions" style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             <button
               onClick={handleReset}
               className="btn-outline"
               disabled={isPouring}
+              style={{ flex: 1, minWidth: '130px' }}
             >
               <RefreshCw className="w-3.5 h-3.5" />
-              Atur Ulang Lab
+              Atur Ulang
+            </button>
+            <button
+              onClick={handleSaveRecipe}
+              className="btn-outline"
+              disabled={isPouring}
+              style={{ flex: 1, minWidth: '130px', borderColor: 'var(--gold-bright)', color: 'var(--gold-bright)' }}
+            >
+              <Heart className="w-3.5 h-3.5" />
+              Simpan Resep
             </button>
             <button
               onClick={handleAddCustomToCart}
               className="btn-gold"
               disabled={isPouring}
+              style={{ flex: 2, minWidth: '200px' }}
             >
               <Sparkles className="w-3.5 h-3.5" />
-              Masukkan seduhan ke Bag
+              Masukkan ke Bag
             </button>
+          </div>
+
+          {/* Saved Recipes Panel (CRUD) */}
+          <div className="option-section-card glass-panel" style={{ marginTop: '1.5rem' }}>
+            <div className="option-section-title-row" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Heart className="w-4 h-4 text-gold-bright" style={{ fill: 'var(--gold-bright)' }} />
+              <h3>Resep Racikan Saya ({customRecipes.length})</h3>
+            </div>
+            
+            {customRecipes.length > 0 ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '1rem' }}>
+                {customRecipes.map((recipe) => (
+                  <div 
+                    key={recipe.id} 
+                    className="glass-card" 
+                    style={{ padding: '0.75rem 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid rgba(200, 162, 124, 0.15)', background: 'rgba(0,0,0,0.2)' }}
+                  >
+                    <div>
+                      <h4 style={{ fontSize: '0.9rem', fontWeight: '600', color: 'var(--text-white)' }}>{recipe.name}</h4>
+                      <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+                        {recipe.baseRatio}% Dasar / {recipe.milkRatio}% Susu / {recipe.syrupRatio}% Sirup
+                      </p>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--gold)', fontWeight: '600' }}>
+                        {formatRupiah(recipe.price)}
+                      </span>
+                    </div>
+
+                    <div style={{ display: 'flex', gap: '0.35rem' }}>
+                      <button
+                        onClick={() => handleLoadRecipe(recipe)}
+                        className="btn-gold"
+                        style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem', height: '28px', display: 'flex', alignItems: 'center' }}
+                      >
+                        Gunakan
+                      </button>
+                      <button
+                        onClick={() => handleRenameRecipe(recipe.id, recipe.name)}
+                        className="cart-btn"
+                        title="Ubah Nama"
+                        style={{ width: '28px', height: '28px', padding: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                      >
+                        <Edit2 className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteRecipe(recipe.id, recipe.name)}
+                        className="cart-btn"
+                        title="Hapus"
+                        style={{ width: '28px', height: '28px', padding: 0, color: 'var(--accent-red)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textAlign: 'center', padding: '1rem', border: '1px dashed rgba(200, 162, 124, 0.15)', borderRadius: '0.5rem', marginTop: '1rem' }}>
+                Belum ada resep kustom tersimpan. Rancang minuman Anda lalu simpan di atas!
+              </p>
+            )}
           </div>
 
         </div>
