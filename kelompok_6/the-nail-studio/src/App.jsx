@@ -1,7 +1,8 @@
-import Navbar from "./components/Navbar";
-import Home from "./components/Home";
-import Catalog from "./components/Catalog";
-import Booking from "./components/Booking";
+import Navbar from "./components/navbar";
+import Home from "./components/home";
+import Catalog from "./components/catalog";
+import Booking from "./components/booking";
+
 import "./App.css";
 
 function App() {
