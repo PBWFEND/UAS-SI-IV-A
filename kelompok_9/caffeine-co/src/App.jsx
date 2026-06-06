@@ -490,11 +490,11 @@ export default function App() {
             <ul className="footer-list">
               <li className="footer-list-item-flex">
                 <MapPin />
-                Jl. Artisan Raya No. 12, Jakarta Selatan
+                Jl. Angkrek Sumedang No 09
               </li>
               <li className="footer-list-item-flex">
                 <Phone />
-                +62 812-3456-7890
+                +62 819-9376-3038 +62 813-6874-0383 +62 857-1032-7081
               </li>
             </ul>
           </div>
@@ -503,7 +503,7 @@ export default function App() {
 
         {/* Bottom copyright details */}
         <div className="footer-bottom-bar">
-          <p>&copy; {new Date().getFullYear()} Caffeine &amp; Co. Hak Cipta Dilindungi Undang-Undang.</p>
+          <p>&copy; {new Date().getFullYear()} Caffeine &amp; Co. Hak Cipta ini dibuat oleh kelompok 9</p>
           <p className="footer-bottom-bar-right">
             <ShieldCheck />
             Simulasi Checkout &amp; Penyimpanan Lokal Aktif
