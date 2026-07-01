@@ -1,136 +1,118 @@
-# UJIAN AKHIR SEMESTER (UAS) GENAP
+# 🐾 Pet Adopt
 
-## TAHUN AKADEMIK 2025/2026
+## 👥 Kelompok 2
 
-**Mata Kuliah**: Pemrograman Berbasis Web Front-End
-
-**Semester/SKS**: IV-A/B / 3 SKS
-
-**Program Studi**: S1 Sistem Informasi
-
-**Hari / Tanggal**: ........................................................
-
-**Waktu**: .................... s.d. ....................
-
-**Dosen**: Yanyan Sofiyan, M.Kom.
-
-**Bentuk Soal**: Proyek
-
-**Pelaksanaan**: Daring (Online)
+| Nama             | NIM     |
+| ---------------- | ------- |
+| Dadika Yudiana   | 2401602210 |
+| Imam Abdillah    | 2401602210 |
+| Resa Khoerunnisa | 240160221038 |
 
 ---
 
-### A. DESKRIPSI UMUM
+## 📌 Tema Aplikasi
 
-Anda diberi kebebasan untuk memilih dan merancang sendiri tema aplikasi, dengan syarat utama aplikasi tersebut merupakan aplikasi **CRUD (Create, Read, Update, Delete)**. Fokus utama penilaian adalah pada **logika CRUD yang fungsional** dan **Antarmuka Pengguna (UI/UX) yang baik**. Seluruh pengelolaan data dilakukan di sisi klien (*client-side*).
+Pet Adopt merupakan aplikasi manajemen adopsi hewan berbasis React JS yang dirancang untuk membantu proses pendataan dan pengelolaan hewan yang tersedia untuk diadopsi. Aplikasi ini memudahkan pengguna dalam menyimpan informasi hewan seperti nama, jenis, umur, jenis kelamin, serta status adopsinya.
 
----
+Pet Adopt dilengkapi dengan dashboard dan statistik yang menampilkan jumlah total hewan, jumlah hewan yang sudah diadopsi, serta jumlah hewan yang masih menunggu adopsi. Seluruh data disimpan menggunakan LocalStorage sehingga data tetap tersimpan meskipun halaman browser direfresh atau ditutup.
 
-### B. TEMA PROYEK: BEBAS & KREATIF
-
-Pilihlah sebuah ide aplikasi yang memungkinkan pengguna untuk mengelola sekumpulan data. Kreativitas dalam memilih tema sangat dihargai, selama semua persyaratan teknis di bawah ini terpenuhi.
-
-**Contoh Ide Proyek (Anda tidak harus memilih dari daftar ini):**
-
-* **Aplikasi Manajemen Tugas (To-do List):** Menambah, melihat, menandai selesai, dan menghapus tugas.
-* **Aplikasi Pencatat Keuangan Sederhana:** Mencatat pemasukan dan pengeluaran keuangan.
-* **Aplikasi Daftar Kontak:** Mengelola daftar kontak teman, keluarga, atau kolega.
-* **Aplikasi Catatan Sederhana (Simple Notes):** Membuat, membaca, mengedit, dan menghapus catatan singkat.
-* **Aplikasi Manajemen Buku (Bookshelf App):** Mengelola koleksi buku yang sudah atau akan dibaca.
-
-#### 1. Struktur Data
-
-Anda bebas menentukan struktur data untuk setiap `item` di aplikasi Anda, namun **wajib memiliki**:
-
-* Sebuah `id` yang unik (bisa menggunakan `String(+new Date())` atau library seperti `uuid`).
-* Minimal **dua properti data lainnya** (contoh: `{ title: 'Belajar React', isDone: false }`).
-
-> **Contoh Referensi:** > Untuk proyek "Aplikasi Manajemen Buku", Anda bisa menggunakan struktur data yang lebih detail seperti ini:
-> ```javascript
-> {
->   id: string,         // ID unik (timestamp string)
->   title: string,      // Judul buku
->   author: string,     // Nama penulis
->   isRead: boolean,    // Status sudah dibaca atau belum
->   addedDate: string   // Tanggal penambahan (format lokal)
-> }
-> 
-> ```
-> 
-> 
-> *Live Demo Referensi:* [https://book-managers.netlify.app](https://book-managers.netlify.app)
-
-> *Repository* : [https://github.com/yysofiyan/example-book-manager](https://github.com/yysofiyan/example-book-manager)
-
-#### 2. Persistensi Data (Wajib)
-
-Gunakan `localStorage` untuk menyimpan data agar data tidak hilang saat browser ditutup atau di-*refresh*. Manfaatkan *hook* `useEffect` untuk melakukan sinkronisasi antara *state* aplikasi dengan `localStorage`.
+Aplikasi ini dibuat sebagai proyek Ujian Akhir Semester (UAS) mata kuliah Pemrograman Berbasis Web Front-End dengan menerapkan konsep CRUD (Create, Read, Update, Delete), pengelolaan state pada React, serta penerapan antarmuka pengguna (UI/UX) yang sederhana, responsif, dan mudah digunakan.
 
 ---
 
-### C. PERSYARATAN TEKNIS & FUNGSIONALITAS WAJIB
+## ✨ Fitur Aplikasi
 
-Apapun tema yang Anda pilih, aplikasi Anda **WAJIB** memiliki komponen dan fungsionalitas berikut:
+### ➕ Create
 
-#### 1. Struktur & State Management (Bobot: 25%)
+Menambahkan data hewan baru.
 
-* Gunakan **Vite** untuk inisialisasi proyek.
-* Terapkan konsep *"lifting state up"*: *State* utama (array data) harus berada di komponen level atas (`App.jsx`) dan fungsi *handler* (untuk CRUD) dioper ke komponen anak melalui *props*.
-* Buat komponen yang logis, modular, dan dapat digunakan kembali (misal: `FormInput`, `ItemList`, `Item`).
+### 📖 Read
 
-#### 2. Fungsionalitas CRUD (Bobot: 40%)
+Menampilkan seluruh data hewan yang tersimpan.
 
-* **CREATE**: Sediakan form untuk menambah data baru. Form harus menyertakan validasi dasar (misal: input utama tidak boleh kosong).
-* **READ**: Tampilkan semua data yang ada dengan jelas.
-* *(Nilai Plus)*: Jika data dapat dikelompokkan berdasarkan kategori atau status (misal: "Tugas Belum Selesai" dan "Tugas Selesai").
+### ✏️ Update
 
+Mengubah data hewan yang sudah ada.
 
-* **UPDATE**: Sediakan cara untuk mengubah data yang sudah ada.
-* *Minimal*: Pengguna harus bisa mengubah satu properti (misal: mengubah status dari "belum selesai" menjadi "selesai").
-* *(Nilai Plus)*: Adanya fungsionalitas edit penuh (mengubah teks/konten) melalui sebuah form.
+### 🗑️ Delete
 
+Menghapus data hewan dengan konfirmasi menggunakan `window.confirm()`.
 
-* **DELETE**: Sediakan tombol untuk menghapus data. Wajib menampilkan dialog konfirmasi menggunakan `window.confirm()` sebelum data dihapus secara permanen.
+### 🔍 Search
 
-#### 3. UI/UX & Interaktivitas (Bobot: 20%)
+Mencari data hewan berdasarkan nama atau jenis secara real-time.
 
-* **Desain Antarmuka**: Tampilan harus bersih, rapi, responsif, dan mudah dipahami oleh pengguna.
-* **Umpan Balik (Feedback)**: Berikan umpan balik yang jelas kepada pengguna (misal: form otomatis dikosongkan setelah *submit* berhasil, adanya notifikasi sukses, dll).
-* **Fitur Pencarian/Filter**: Wajib menyediakan fitur untuk mencari atau memfilter data berdasarkan salah satu propertinya secara *real-time*.
+### 📊 Dashboard & Statistik
 
-#### 4. Deployment & Kualitas Kode (Bobot: 15%)
+Menampilkan:
 
-* Kode program harus bersih, terstruktur, terindentasi dengan baik, dan mudah dibaca.
-* Unggah proyek ke repositori **GitHub**.
-* *Deploy* aplikasi Anda ke **Vercel** atau **Netlify** dan pastikan dapat diakses secara publik dengan baik.
+* Total Hewan
+* Sudah Diadopsi
+* Menunggu Adopsi
+* Persentase Adopsi
 
----
+### 👤 Profil
 
-### D. KRITERIA PENILAIAN RINCI
+Menampilkan informasi aplikasi dan anggota kelompok.
 
-| Kriteria Penilaian | Bobot |
-| --- | --- |
-| **Fungsionalitas CRUD Lengkap & Benar** (Aplikasi berjalan tanpa error) | 40% |
-| **Manajemen State, Props, & Alur Data** (Sesuai kaidah React) | 25% |
-| **Desain UI/UX dan Interaktivitas Pengguna** (Kerapian & Fitur Pencarian) | 20% |
-| **Kualitas Kode, Deployment, & Dokumentasi** | 15% |
-| **TOTAL** | **100%** |
+### 💾 Local Storage
+
+Data tersimpan secara otomatis menggunakan LocalStorage sehingga tidak hilang saat browser direfresh.
 
 ---
 
-### E. PROSEDUR PENGUMPULAN
+## 🗂️ Struktur Data
 
-1. Buat file `README.md` yang informatif di dalam repositori GitHub Anda.
-2. File `README.md` tersebut wajib memuat informasi berikut:
-* **Nama Kelompok & NIM** anggota.
-* **Tema & Deskripsi Aplikasi**: Jelaskan latar belakang aplikasi yang dibuat serta fitur-fiturnya.
-* **Struktur Data**: Jelaskan struktur objek/properti data yang digunakan.
-* **Link Demo Live**: URL tautan aktif dari hasil *deploy* di [Vercel]([https://](https://vercel.com)) / [Netlify]([https://](https://app.netlify.com/))
+Setiap data hewan disimpan dalam bentuk objek sebagai berikut:
 
+```javascript
+{
+  id: Date.now(),
+  nama: "Milo",
+  jenis: "Kucing",
+  umur: "2 Tahun",
+  gender: "Jantan",
+  adopted: false
+}
+```
 
-3. Lakukan *Push* hasil akhir proyek ke repositori kelas:
-👉 [https://github.com/PBWFEND/UAS-SI-IV-A](https://github.com/PBWFEND/UAS-SI-IV-A)
+### Keterangan Struktur Data
+
+| Properti | Tipe Data | Keterangan           |
+| -------- | --------- | -------------------- |
+| id       | Number    | ID unik setiap hewan |
+| nama     | String    | Nama hewan           |
+| jenis    | String    | Jenis hewan          |
+| umur     | String    | Umur hewan           |
+| gender   | String    | Jenis kelamin hewan  |
+| adopted  | Boolean   | Status adopsi hewan  |
 
 ---
 
-*Selamat Mengerjakan, Happy Coding!*
+## 🛠️ Teknologi yang Digunakan
+
+* React JS
+* Vite
+* JavaScript
+* CSS
+* LocalStorage
+
+---
+
+## 🔗 Repository GitHub
+
+Link Repository:
+
+*(Tambahkan link GitHub setelah project di-push)*
+
+---
+
+## 🌐 Live Demo
+
+Link Vercel / Netlify:
+
+*(Tambahkan link setelah deployment selesai)*
+
+---
+
+
