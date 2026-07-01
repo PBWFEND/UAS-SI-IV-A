@@ -4,8 +4,8 @@
 
 | Nama             | NIM     |
 | ---------------- | ------- |
-| Dadika Yudiana   | 2401602210 |
-| Imam Abdillah    | 2401602210 |
+| Dadika Yudiana   | 240160221006 |
+| Imam Abdillah    | 240160221016 |
 | Resa Khoerunnisa | 240160221038 |
 
 ---
@@ -99,19 +99,12 @@ Setiap data hewan disimpan dalam bentuk objek sebagai berikut:
 
 ---
 
-## 🔗 Repository GitHub
-
-Link Repository:
-
-*(Tambahkan link GitHub setelah project di-push)*
-
----
-
 ## 🌐 Live Demo
 
 Link Vercel / Netlify:
 
-*(Tambahkan link setelah deployment selesai)*
+
+https://uas-si-iv-a-eight.vercel.app 
 
 ---
 
