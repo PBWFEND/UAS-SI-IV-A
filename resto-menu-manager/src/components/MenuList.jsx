@@ -1,8 +1,12 @@
-import React from 'react';
-
 function MenuList({ menus, onEditClick, onDeleteClick }) {
   if (menus.length === 0) {
-    return <div className="empty-state">Menu tidak ditemukan. Silakan tambahkan menu baru.</div>;
+    return (
+      <div className="empty-state">
+        <div className="empty-icon">🍽️</div>
+        <h3>Menu tidak ditemukan</h3>
+        <p>Silakan sesuaikan filter pencarian atau tambahkan menu hidangan baru.</p>
+      </div>
+    );
   }
 
   return (
@@ -10,7 +14,17 @@ function MenuList({ menus, onEditClick, onDeleteClick }) {
       {menus.map((menu) => (
         <div className="menu-card" key={menu.id}>
           <div className="card-image-wrapper">
-            <img src={menu.image} alt={menu.name} className="menu-img" />
+            <img 
+              src={menu.image} 
+              alt={menu.name} 
+              className="menu-img" 
+              onError={(e) => {
+                e.target.onerror = null; // Prevent infinite loop
+                e.target.src = menu.category === 'Makanan' 
+                  ? "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=60" 
+                  : "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=500&auto=format&fit=crop&q=60";
+              }}
+            />
             <span className="badge-category">{menu.category}</span>
             <span className={`badge-status ${menu.status === 'Tersedia' ? 'ready' : 'empty'}`}>
               {menu.status}
