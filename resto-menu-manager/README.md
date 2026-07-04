@@ -55,33 +55,9 @@ Aplikasi ini menggunakan struktur data berbasis *Array of Objects* yang disimpan
 * **Styling:** Vanilla CSS (Dengan Google Fonts Poppins & responsive flexbox/grid layout)
 * **Kualitas Kode:** ESLint (Bebas dari unused imports/variables)
 
-## 🚀 Panduan Deploy ke Vercel
+---
 
-Aplikasi ini siap di-deploy ke **Vercel** dengan konfigurasi SPA rewrite yang sudah disediakan pada berkas `vercel.json` agar routing berjalan mulus saat halaman dimuat ulang.
+## 🔗 Link Demo (Deploy)
 
-### Pilihan 1: Deploy Melalui Vercel Dashboard (Rekomendasi)
-1. Unggah kode project Anda ke repository Git (GitHub, GitLab, atau Bitbucket).
-2. Buka dan masuk ke [Vercel Dashboard](https://vercel.com/dashboard).
-3. Klik tombol **Add New** lalu pilih **Project**.
-4. Impor repository Git dari project `resto-menu-manager` ini.
-5. Vercel akan otomatis mendeteksi konfigurasi Vite. Pastikan pengaturannya sesuai:
-   * **Framework Preset:** `Vite`
-   * **Build Command:** `npm run build`
-   * **Output Directory:** `dist`
-   * **Install Command:** `npm install`
-6. Klik tombol **Deploy** dan tunggu proses pembuatan selesai.
-
-### Pilihan 2: Deploy Menggunakan Vercel CLI
-1. Pasang Vercel CLI secara global di komputer Anda (jika belum):
-   ```bash
-   npm install -g vercel
-   ```
-2. Jalankan perintah deploy di direktori utama project:
-   ```bash
-   vercel
-   ```
-3. Ikuti instruksi interaktif yang muncul di terminal (Login akun, buat project baru, pilih pengaturan default Vite).
-4. Untuk deploy ke produksi, jalankan perintah:
-   ```bash
-   vercel --prod
-   ```
+Aplikasi ini telah di-deploy dan dapat diakses secara langsung melalui tautan berikut:
+👉 **[Resto Menu - Manager App](https://restomenumanager.vercel.app/)**
