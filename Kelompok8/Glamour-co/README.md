@@ -73,10 +73,10 @@ npm run dev
 
 **Vercel**
 
-https://glamour-fnhba7yb1-kelompok-8salon.vercel.app/
+https://glamour-co-ten.vercel.app/
 
 ---
 
 ## 🔗 Link Demo
 
-https://glamour-fnhba7yb1-kelompok-8salon.vercel.app/
+https://glamour-co-ten.vercel.app/
